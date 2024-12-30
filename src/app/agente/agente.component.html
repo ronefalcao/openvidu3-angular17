@@ -1,0 +1,26 @@
+<div class="opcoes">
+  <button (click)="joinRoom()">Iniciar</button>
+  <button (click)="leaveRoom()">Encerrar</button>
+  <button (click)="startRecording()">Iniciar Gravação</button>
+  <button (click)="stopRecording()">Pausar Gravação</button>
+  <button (click)="listRecording()">Listas</button>
+</div>
+<div class="layout-container">
+  <!-- Exibindo o vídeo local do AGENTE -->
+  <video-component
+    *ngIf="localTrack()"
+    [track]="localTrack()!"
+    [participantIdentity]="participantName"
+    [local]="true"
+  ></video-component>
+
+  <!-- Exibindo o vídeo remoto (do CLIENTE ou outros participantes) -->
+  <ng-container *ngFor="let remoteTrack of remoteTracks">
+    <video-component
+      *ngIf="remoteTrack.track?.sid && remoteTrack.track?.kind === 'video'"
+      [track]="remoteTrack.track"
+      [participantIdentity]="remoteTrack.participantIdentity"
+      [local]="false"
+    ></video-component>
+  </ng-container>
+</div>

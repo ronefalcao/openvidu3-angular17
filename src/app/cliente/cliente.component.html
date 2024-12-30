@@ -1,0 +1,28 @@
+<div class="layout-container">
+  <!-- Exibindo o vídeo local do CLIENTE -->
+  <div class="video">
+    <video-component
+      *ngIf="localTrack() !== undefined"
+      [track]="localTrack()!"
+      [participantIdentity]="participantName"
+      [local]="true"
+    ></video-component>
+  </div>
+  <!-- Exibindo o vídeo remoto (do AGENTE ou outros participantes) -->
+  <div class="video">
+    <!--   <video-component
+      *ngFor="let remoteTrack of remoteTracks"
+      [track]="remoteTrack.track"
+      [participantIdentity]="remoteTrack.participantIdentity"
+      [local]="false"
+    ></video-component> -->
+    <ng-container *ngFor="let remoteTrack of remoteTracks">
+      <video-component
+        *ngIf="remoteTrack.track?.sid && remoteTrack.track?.kind === 'video'"
+        [track]="remoteTrack.track"
+        [participantIdentity]="remoteTrack.participantIdentity"
+        [local]="false"
+      ></video-component>
+    </ng-container>
+  </div>
+</div>
